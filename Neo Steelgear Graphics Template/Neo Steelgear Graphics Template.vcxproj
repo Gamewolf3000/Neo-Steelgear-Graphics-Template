@@ -88,6 +88,7 @@
     </Link>
     <FxCompile>
       <AdditionalOptions>-HV 2021 %(AdditionalOptions)</AdditionalOptions>
+      <ShaderModel>6.6</ShaderModel>
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -111,6 +112,7 @@
     </Link>
     <FxCompile>
       <AdditionalOptions>-HV 2021 %(AdditionalOptions)</AdditionalOptions>
+      <ShaderModel>6.6</ShaderModel>
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -130,6 +132,7 @@
     </Link>
     <FxCompile>
       <AdditionalOptions>-HV 2021 %(AdditionalOptions)</AdditionalOptions>
+      <ShaderModel>6.6</ShaderModel>
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -153,6 +156,7 @@
     </Link>
     <FxCompile>
       <AdditionalOptions>-HV 2021 %(AdditionalOptions)</AdditionalOptions>
+      <ShaderModel>6.6</ShaderModel>
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
