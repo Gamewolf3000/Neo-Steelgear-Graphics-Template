@@ -1,7 +1,9 @@
+#include "DynamicIndexingHelpers.hlsli"
+
 template<typename T>
 Texture2D<T> GetTexture2D(unsigned int heapIndex, bool nonUniformIndex)
 {
-	return GetDynamicallyIndexedResource<Texture2D<T>>(heapIndex, nonUniformIndex);
+	return GetDynamicallyIndexedResource<Texture2D<T> >(heapIndex, nonUniformIndex);
 }
 
 template<typename T>
@@ -24,7 +26,7 @@ T GetTexture2DValue(uint2 textureCoords, unsigned int heapIndex,
 template<typename T>
 RWTexture2D<T> GetRWTexture2D(unsigned int heapIndex, bool nonUniformIndex)
 {
-	return GetDynamicallyIndexedResource<RWTexture2D<T>>(heapIndex, nonUniformIndex);
+	return GetDynamicallyIndexedResource<RWTexture2D<T> >(heapIndex, nonUniformIndex);
 }
 
 template<typename T>

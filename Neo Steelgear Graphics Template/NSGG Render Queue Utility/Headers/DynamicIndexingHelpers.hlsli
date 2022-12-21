@@ -1,3 +1,6 @@
+#ifndef DYNAMIC_INDEXING_HELPERS
+#define DYNAMIC_INDEXING_HELPERS
+
 template<typename T>
 T GetDynamicallyIndexedResource(unsigned int heapIndex, bool nonUniformIndex)
 {
@@ -12,3 +15,5 @@ T GetDynamicallyIndexedResource(unsigned int heapIndex, bool nonUniformIndex)
 		return toReturn;
 	}
 }
+
+#endif DYNAMIC_INDEXING_HELPERS

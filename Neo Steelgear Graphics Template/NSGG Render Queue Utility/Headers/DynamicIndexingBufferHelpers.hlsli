@@ -4,7 +4,7 @@ template<typename T>
 StructuredBuffer<T> GetStructuredBuffer(unsigned int heapIndex, 
 	bool nonUniformIndex) 
 {
-	return GetDynamicallyIndexedResource<StructuredBuffer<T>>(heapIndex, 
+	return GetDynamicallyIndexedResource<StructuredBuffer<T> >(heapIndex, 
 		nonUniformIndex);
 }
 
@@ -21,7 +21,7 @@ template<typename T>
 RWStructuredBuffer<T> GetRWStructuredBuffer(unsigned int heapIndex,
 	bool nonUniformIndex)
 {
-	return GetDynamicallyIndexedResource<RWStructuredBuffer<T>>(heapIndex,
+	return GetDynamicallyIndexedResource<RWStructuredBuffer<T> >(heapIndex,
 		nonUniformIndex);
 }
 
