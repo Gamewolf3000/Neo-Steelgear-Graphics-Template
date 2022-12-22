@@ -9,6 +9,13 @@
 #include "VertexPipelineState.h"
 #include "ConstantBuffer.h"
 
+struct DrawCallInfo
+{
+	UINT nrOfInstances = 0;
+	UINT startIndex = 0;
+	UINT nrOfIndices = 0;
+};
+
 template<FrameType Frames>
 class VertexJob : public GraphicsEngineJob<Frames>
 {
@@ -58,9 +65,8 @@ protected:
 		DXGI_FORMAT format, const CategoryResourceIdentifier& identifier,
 		const FrameResourceContext<Frames>& context);
 
-	void DrawIndexedInstanced(ID3D12GraphicsCommandList* list, UINT instanceCount,
-		DXGI_FORMAT format, const CategoryResourceIdentifier& identifier,
-		const FrameResourceContext<Frames>& context);
+	void DrawIndexedInstanced(const DrawCallInfo& info,
+		ID3D12GraphicsCommandList* list);
 
 public:
 	VertexJob() = default;
@@ -229,13 +235,8 @@ inline void VertexJob<Frames>::SetIndexBufferView(
 
 template<FrameType Frames>
 inline void VertexJob<Frames>::DrawIndexedInstanced(
-	ID3D12GraphicsCommandList* list, UINT instanceCount, DXGI_FORMAT format,
-	const CategoryResourceIdentifier& identifier,
-	const FrameResourceContext<Frames>& context)
+	const DrawCallInfo& info, ID3D12GraphicsCommandList* list)
 {
-	CategoryResourceHandle handle = context.GetCategoryResource(identifier);
-	size_t indexSize = format == DXGI_FORMAT_R32_UINT ? 4 : 2;
-	UINT indexCount = handle.nrOfElements;
-
-	list->DrawIndexedInstanced(indexCount, instanceCount, 0, 0, 0);
+	list->DrawIndexedInstanced(info.nrOfIndices, info.nrOfInstances,
+		info.startIndex, 0, 0);
 }
