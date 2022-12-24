@@ -1,5 +1,8 @@
 #pragma once
 
+#include <vector>
+#include <functional>
+
 #include <dxgidebug.h>
 
 #include <FrameObject.h>
@@ -93,6 +96,7 @@ private:
 
 	RenderQueueTimerCPU cpuTimer;
 	RenderQueueTimerGPU<Frames> gpuTimer;
+	std::vector<std::function<void(ImGuiContext&)>> externalImguiFunctions;
 	ImguiContext imguiContext;
 	FrameTimesCPU latestTimesCPU;
 	FrameTimesGPU latestTimesGPU;
@@ -140,6 +144,7 @@ public:
 
 	const FrameTimesCPU& GetLastFrameTimes();
 	const FrameTimesGPU& GetLastCycleFrameTimes();
+	void AddImguiFunction(std::function<void(ImguiContext&)>& function);
 };
 
 template<FrameType Frames>
@@ -381,6 +386,12 @@ inline void Renderer<Frames>::RenderImgui()
 		}
 
 		ImGui::End();
+
+		for (const auto& function : externalImguiFunctions)
+		{
+			function(imguiContext);
+		}
+
 		auto transitionRenderTarget = window.GetSwapChain().TransitionBackbuffer(
 			D3D12_RESOURCE_STATE_RENDER_TARGET);
 		mainAllocator.Active().ActiveList()->ResourceBarrier(1, &transitionRenderTarget);
@@ -558,4 +569,10 @@ template<FrameType Frames>
 inline const FrameTimesGPU& Renderer<Frames>::GetLastCycleFrameTimes()
 {
 	return gpuTimer.GetPreviousFrameIterationTimes();
+}
+
+template<FrameType Frames>
+inline void Renderer<Frames>::AddImguiFunction(std::function<void(ImguiContext&)>& function)
+{
+	externalImguiFunctions.push_back(function);
 }

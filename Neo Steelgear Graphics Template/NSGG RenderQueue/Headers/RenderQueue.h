@@ -267,6 +267,10 @@ void RenderQueue<Frames>::PerformImguiOperations(const FrameTimesCPU& cpuTimes,
 			{
 				imguiContext.AddText("Execution batch ", i, " CPU time: ",
 					cpuTimes.batchExecutionTimes[i]);
+			}
+
+			for (size_t i = 0; i < gpuTimes.batchTimes.size(); ++i)
+			{
 				imguiContext.AddText("Execution batch ", i, " GPU time: ",
 					gpuTimes.batchTimes[i]);
 			}
