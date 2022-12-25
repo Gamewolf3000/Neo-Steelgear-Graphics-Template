@@ -96,7 +96,7 @@ private:
 
 	RenderQueueTimerCPU cpuTimer;
 	RenderQueueTimerGPU<Frames> gpuTimer;
-	std::vector<std::function<void(ImGuiContext&)>> externalImguiFunctions;
+	std::vector<std::function<void(ImguiContext&)>> externalImguiFunctions;
 	ImguiContext imguiContext;
 	FrameTimesCPU latestTimesCPU;
 	FrameTimesGPU latestTimesGPU;
