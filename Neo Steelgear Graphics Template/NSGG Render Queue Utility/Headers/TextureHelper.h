@@ -9,3 +9,6 @@ CategoryResourceIdentifier LoadTextureStandard(const std::string& filePath,
 CategoryResourceIdentifier LoadTextureHDR(const std::string& filePath,
 	Renderer<2>& renderer, const CategoryIdentifier& categoryIdentifier,
 	bool generateMipMaps = true);
+
+CategoryResourceIdentifier LoadTextureCubeDDS(const std::string& filePath,
+	Renderer<2>& renderer, const CategoryIdentifier& categoryIdentifier);
