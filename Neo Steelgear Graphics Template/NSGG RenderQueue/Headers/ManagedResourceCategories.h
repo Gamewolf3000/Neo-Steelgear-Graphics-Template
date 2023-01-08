@@ -424,7 +424,9 @@ inline void ManagedResourceCategories<Frames>::SwapFrame()
 		category.SwapFrame();
 
 	staticResourcesUploader.SwapFrame();
+	staticResourcesUploader.Active().RestoreUsedMemory();
 	dynamicResourcesUploader.SwapFrame();
+	dynamicResourcesUploader.Active().RestoreUsedMemory();
 }
 
 template<FrameType Frames>
