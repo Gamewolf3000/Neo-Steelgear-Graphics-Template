@@ -203,4 +203,6 @@ inline void QueueContext<Frames>::ClearQueue()
 
 	renderQueue->transientResources.clear();
 	renderQueue->jobs.clear();
+	renderQueue->postExecutionBarriers.clear();
+	renderQueue->endTextureIndex = TransientResourceIndex(-1);
 }
