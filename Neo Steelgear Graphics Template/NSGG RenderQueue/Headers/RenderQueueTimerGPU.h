@@ -158,9 +158,10 @@ public:
 	RenderQueueTimerGPU& operator=(RenderQueueTimerGPU&& other) noexcept = default;
 
 	void SetActive(bool active);
-	void Reset(ID3D12Device* device, UINT nrOfBatches, UINT nrOfJobs,
-		ID3D12CommandQueue* directQueue, ID3D12CommandQueue* copyQueue,
-		ID3D12CommandQueue* presentQueue);
+	void Reset();
+	void SetJobInfo(ID3D12Device* device, UINT nrOfBatches,
+		UINT nrOfJobs, ID3D12CommandQueue* directQueue, 
+		ID3D12CommandQueue* copyQueue, ID3D12CommandQueue* presentQueue);
 
 	void MarkFrameStart(ID3D12GraphicsCommandList* list);
 	void MarkFrameEnd(ID3D12GraphicsCommandList* list);
@@ -299,9 +300,7 @@ void RenderQueueTimerGPU<Frames>::SetActive(bool active)
 }
 
 template<FrameType Frames>
-void RenderQueueTimerGPU<Frames>::Reset(ID3D12Device* device, UINT nrOfBatches,
-	UINT nrOfJobs, ID3D12CommandQueue* directQueue, ID3D12CommandQueue* copyQueue,
-	ID3D12CommandQueue* presentQueue)
+void RenderQueueTimerGPU<Frames>::Reset()
 {
 	std::chrono::time_point<std::chrono::steady_clock> currentFrameStart = 
 		std::chrono::steady_clock::now();
@@ -309,7 +308,13 @@ void RenderQueueTimerGPU<Frames>::Reset(ID3D12Device* device, UINT nrOfBatches,
 		(currentFrameStart - lastFrameStart);
 	elapsedGlobalTime += elapsedTime.count();
 	lastFrameStart = currentFrameStart;
+}
 
+template<FrameType Frames>
+void RenderQueueTimerGPU<Frames>::SetJobInfo(ID3D12Device* device, 
+	UINT nrOfBatches, UINT nrOfJobs, ID3D12CommandQueue* directQueue,
+	ID3D12CommandQueue* copyQueue, ID3D12CommandQueue* presentQueue)
+{
 	if (nrOfBatches == nrOfBatchesCurrently && nrOfJobs == nrOfJobsCurrently)
 	{
 		perFrameResources.SwapFrame();

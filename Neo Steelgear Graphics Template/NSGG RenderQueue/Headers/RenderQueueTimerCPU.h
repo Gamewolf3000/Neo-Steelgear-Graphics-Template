@@ -158,7 +158,8 @@ public:
 	RenderQueueTimerCPU& operator=(RenderQueueTimerCPU&& other) noexcept = default;
 
 	void SetActive(bool active);
-	void Reset(size_t nrOfBatches, size_t nrOfJobs);
+	void Reset();
+	void SetJobInfo(size_t nrOfBatches, size_t nrOfJobs);
 	RenderQueueTimePoint GetCurrentTimePoint();
 
 	RenderQueueTimePoint MarkPreRender();

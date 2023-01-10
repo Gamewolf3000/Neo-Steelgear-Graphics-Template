@@ -506,9 +506,8 @@ inline void Renderer<Frames>::WaitForAvailableFrame()
 	}
 
 	latestTimesCPU = cpuTimer.GetFrameTimes();
-	cpuTimer.Reset(1, renderQueue.GetNrOfJobs()); // CHANGE THE 1 LATER TO BE BASED ON MULTI THREADING SETTINGS
-	gpuTimer.Reset(device.GetDevice(), 1, renderQueue.GetNrOfJobs(), directQueue,
-		copyQueue, presentQueue); // CHANGE THE 1 LATER TO BE BASED ON MULTI THREADING SETTINGS
+	cpuTimer.Reset();
+	gpuTimer.Reset();
 	latestTimesGPU = gpuTimer.GetPreviousFrameIterationTimes();
 
 	window.SwapFrame();
@@ -540,6 +539,10 @@ inline void Renderer<Frames>::SetGlobalFrameResourceDesc(
 template<FrameType Frames>
 inline void Renderer<Frames>::Render(const entt::registry& registry)
 {
+	cpuTimer.SetJobInfo(1, renderQueue.GetNrOfJobs()); // CHANGE THE 1 LATER TO BE BASED ON MULTI THREADING SETTINGS
+	gpuTimer.SetJobInfo(device.GetDevice(), 1, renderQueue.GetNrOfJobs(), directQueue,
+		copyQueue, presentQueue); // CHANGE THE 1 LATER TO BE BASED ON MULTI THREADING SETTINGS
+
 	auto renderStartPoint = cpuTimer.MarkPreRender();
 	gpuTimer.MarkFrameStart(mainAllocator.Active().ActiveList());
 
