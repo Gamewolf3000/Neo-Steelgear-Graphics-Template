@@ -160,7 +160,7 @@ public:
 	void SetActive(bool active);
 	void Reset();
 	void SetJobInfo(ID3D12Device* device, UINT nrOfBatches,
-		UINT nrOfJobs, ID3D12CommandQueue* directQueue, 
+		UINT nrOfJobs, ID3D12CommandQueue* directQueue,
 		ID3D12CommandQueue* copyQueue, ID3D12CommandQueue* presentQueue);
 
 	void MarkFrameStart(ID3D12GraphicsCommandList* list);
@@ -285,7 +285,7 @@ inline void RenderQueueTimerGPU<Frames>::ResetFrameTimes(FrameTimesGPU& toReset)
 	toReset.copyTime = 0.0;
 	toReset.discardAndClearTime = 0.0;
 
-	memset(toReset.batchTimes.data(), 0, 
+	memset(toReset.batchTimes.data(), 0,
 		sizeof(double) * toReset.batchTimes.size());
 	memset(toReset.jobTimes.data(), 0,
 		sizeof(double) * toReset.jobTimes.size());
@@ -302,16 +302,16 @@ void RenderQueueTimerGPU<Frames>::SetActive(bool active)
 template<FrameType Frames>
 void RenderQueueTimerGPU<Frames>::Reset()
 {
-	std::chrono::time_point<std::chrono::steady_clock> currentFrameStart = 
+	std::chrono::time_point<std::chrono::steady_clock> currentFrameStart =
 		std::chrono::steady_clock::now();
-	std::chrono::duration<double> elapsedTime = 
+	std::chrono::duration<double> elapsedTime =
 		(currentFrameStart - lastFrameStart);
 	elapsedGlobalTime += elapsedTime.count();
 	lastFrameStart = currentFrameStart;
 }
 
 template<FrameType Frames>
-void RenderQueueTimerGPU<Frames>::SetJobInfo(ID3D12Device* device, 
+void RenderQueueTimerGPU<Frames>::SetJobInfo(ID3D12Device* device,
 	UINT nrOfBatches, UINT nrOfJobs, ID3D12CommandQueue* directQueue,
 	ID3D12CommandQueue* copyQueue, ID3D12CommandQueue* presentQueue)
 {
@@ -480,13 +480,13 @@ template<FrameType Frames>
 inline const FrameTimesGPU&
 RenderQueueTimerGPU<Frames>::GetPreviousFrameIterationTimes()
 {
-	if (isActive == false)
+	ID3D12Resource* directBuffer = perFrameResources.Active().directResultsBuffer;
+	ID3D12Resource* copyBuffer = perFrameResources.Active().copyResultsBuffer;
+
+	if (isActive == false || directBuffer == nullptr || copyBuffer == nullptr)
 	{
 		return lastCalculatedFrameTimes;
 	}
-
-	ID3D12Resource* directBuffer = perFrameResources.Active().directResultsBuffer;
-	ID3D12Resource* copyBuffer = perFrameResources.Active().copyResultsBuffer;
 
 	TimeTypeGPU* directBufferData = nullptr;
 	directBuffer->Map(0, nullptr, reinterpret_cast<void**>(&directBufferData));
