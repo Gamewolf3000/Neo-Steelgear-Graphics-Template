@@ -101,6 +101,8 @@ public:
 		D3D12_CLEAR_VALUE* optimalClearValue = nullptr,
 		const Texture2DComponentTemplate::TextureReplacementViews& replacementViews = Texture2DComponentTemplate::TextureReplacementViews());
 
+	void RemoveResource(const CategoryResourceIdentifier& identifier);
+
 	void SetResourceData(const CategoryResourceIdentifier& identifier, 
 		void* dataAddress, std::uint8_t subresourceIndex = 0);
 
@@ -330,6 +332,41 @@ inline CategoryResourceIdentifier ManagedResourceCategories<Frames>::CreateTextu
 	}
 
 	return { category, internalIndex };
+}
+
+template<FrameType Frames>
+inline void ManagedResourceCategories<Frames>::RemoveResource(
+	const CategoryResourceIdentifier& identifier)
+{
+	size_t localIndex = identifier.categoryIdentifier.localIndex;
+	ResourceIndex internalIndex = identifier.internalIndex;
+
+	switch (identifier.categoryIdentifier.type)
+	{
+	case CategoryType::BUFFER:
+		if (identifier.categoryIdentifier.dynamicCategory == true)
+		{
+			dynamicBufferCategories[localIndex].RemoveComponent(internalIndex);
+		}
+		else
+		{
+			staticBufferCategories[localIndex].RemoveComponent(internalIndex);
+		}
+		break;
+	case CategoryType::TEXTURE2D:
+		if (identifier.categoryIdentifier.dynamicCategory == true)
+		{
+			dynamicTexture2DCategories[localIndex].RemoveComponent(internalIndex);
+		}
+		else
+		{
+			staticTexture2DCategories[localIndex].RemoveComponent(internalIndex);
+		}
+		break;
+	default:
+		throw std::runtime_error("Unknown category type when removing resource");
+		break;
+	}
 }
 
 template<FrameType Frames>
